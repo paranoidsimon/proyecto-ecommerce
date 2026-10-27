@@ -52,7 +52,9 @@ Todas las rutas están bajo `/api`. Las rutas protegidas requieren `Authorizatio
 | Método | Ruta | Acceso | Función |
 |---|---|---|---|
 | POST | `/register` | Público | Registrar cliente; el servidor asigna el rol |
-| GET | `/products?search=` | Público | Buscar productos activos (admin/vendedor también ve inactivos) |
+| GET | `/products?search=&category=&minPrice=&maxPrice=&inStock=&sort=` | Público | Buscar y filtrar productos activos (admin/vendedor también ve inactivos); orden: `newest`, `price-asc`, `price-desc`, `name-asc` |
+| GET | `/products/:id` | Público | Consultar la ficha de un producto activo (admin/vendedor también puede ver inactivos) |
+| GET | `/categories` | Público | Listar categorías con productos activos (admin/vendedor también ve categorías de productos inactivos) |
 | POST/PATCH/DELETE | `/products[/:id]` | Admin, vendedor | Gestionar catálogo e inventario |
 | GET | `/cart` | Cliente | Consultar carrito persistente |
 | POST | `/cart/:productId` | Cliente | Agregar una unidad |

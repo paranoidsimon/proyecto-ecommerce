@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import useCommerce from '../services/useCommerce';
 import useGlobal from '../services/useGlobal';
@@ -15,25 +16,43 @@ const emptyProduct = {
 
 export default function Products() {
   const { role } = useGlobal();
-  const { getProducts, addProduct, updateProduct, deleteProduct } = useCommerce();
+  const { getProducts, getCategories, addProduct, updateProduct, deleteProduct } = useCommerce();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const requestedEditId = searchParams.get('edit');
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [form, setForm] = useState(emptyProduct);
   const [editingId, setEditingId] = useState(null);
   const [saving, setSaving] = useState(false);
 
   async function loadProducts() {
     try {
-      setProducts(await getProducts());
+      const result = await getProducts();
+      setProducts(result);
+      return result;
     } catch (error) {
       toast.error(error.message || 'No se pudieron cargar los productos');
+      return [];
     }
   }
 
   useEffect(() => {
-    if (role === 'admin' || role === 'seller')
-      loadProducts();
+    if (role === 'admin' || role === 'seller') {
+      loadProducts().then(loadedProducts => {
+        if (!requestedEditId)
+          return;
+        const product = loadedProducts.find(item => item._id === requestedEditId);
+        if (product)
+          edit(product);
+        else
+          toast.error('No se encontró el producto que quieres editar');
+      });
+      getCategories().then(setCategories).catch(error => {
+        toast.error(error.message || 'No se pudieron cargar las categorías');
+      });
+    }
   // oxlint-disable-next-line react-hooks/exhaustive-deps
-  }, [role]);
+  }, [role, requestedEditId]);
 
   if (!['admin', 'seller'].includes(role))
     return <p className="notice">Esta sección es solo para vendedores y administradores.</p>;
@@ -67,6 +86,11 @@ export default function Products() {
       toast.success(editingId ? 'Producto actualizado' : 'Producto creado');
       setForm(emptyProduct);
       setEditingId(null);
+      if (requestedEditId)
+        setSearchParams(current => {
+          current.delete('edit');
+          return current;
+        }, { replace: true });
       await loadProducts();
     } catch (error) {
       toast.error(error.message || 'No se pudo guardar el producto');
@@ -93,7 +117,12 @@ export default function Products() {
       <h2>{editingId ? 'Editar producto' : 'Nuevo producto'}</h2>
       <label>Nombre<input value={form.name} required onChange={event => change('name', event.target.value)} /></label>
       <label>Descripción<textarea value={form.description} onChange={event => change('description', event.target.value)} /></label>
-      <label>Categoría<input value={form.category} onChange={event => change('category', event.target.value)} /></label>
+      <label>Categoría
+        <input list="product-categories" value={form.category} onChange={event => change('category', event.target.value)} />
+        <datalist id="product-categories">
+          {categories.map(category => <option key={category} value={category} />)}
+        </datalist>
+      </label>
       <label>Precio<input type="number" min="0" step="0.01" value={form.price} required onChange={event => change('price', event.target.value)} /></label>
       <label>Inventario<input type="number" min="0" step="1" value={form.stock} required onChange={event => change('stock', event.target.value)} /></label>
       <label>URL de imagen<input type="url" value={form.imageUrl} onChange={event => change('imageUrl', event.target.value)} /></label>
@@ -106,6 +135,11 @@ export default function Products() {
         {editingId && <button type="button" onClick={() => {
           setForm(emptyProduct);
           setEditingId(null);
+          if (requestedEditId)
+            setSearchParams(current => {
+              current.delete('edit');
+              return current;
+            }, { replace: true });
         }}>Cancelar edición</button>}
       </div>
     </form>

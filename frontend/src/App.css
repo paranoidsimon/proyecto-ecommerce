@@ -247,11 +247,85 @@
   flex: 1;
 }
 
+.catalog-layout {
+  display: grid;
+  grid-template-columns: minmax(13rem, 16rem) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(1rem, 2.5vw, 2rem);
+  margin-top: 1.5rem;
+}
+
+.catalog-filters {
+  display: grid;
+  gap: .9rem;
+  padding: 1rem;
+  background: #f5f5f5;
+  border-radius: .7rem;
+}
+
+.catalog-filters h2 {
+  margin: 0;
+  color: #111;
+  font-size: 1.05rem;
+}
+
+.catalog-filters > label:not(.stock-filter) {
+  display: grid;
+  gap: .35rem;
+  color: #555;
+  font-size: .82rem;
+  font-weight: 600;
+}
+
+.catalog-filters select,
+.catalog-filters input:not([type="checkbox"]) {
+  width: 100%;
+}
+
+.catalog-filters .stock-filter {
+  display: flex;
+  min-height: 1.5rem;
+  align-items: center;
+  gap: .45rem;
+  color: #555;
+  font-size: .86rem;
+}
+
+.catalog-filters .stock-filter input {
+  width: 1rem;
+  min-height: 1rem;
+  accent-color: #111;
+}
+
+.catalog-filters > button {
+  width: 100%;
+  color: #fff;
+  background: #000;
+  border-color: #000;
+}
+
+.catalog-filters > button:hover:not(:disabled) {
+  color: #fff;
+  background: #333;
+  border-color: #333;
+}
+
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr));
   gap: .8rem;
-  margin-top: 1.5rem;
+}
+
+.product-card-image {
+  display: grid;
+  height: 205px;
+  min-height: 0;
+  place-items: center;
+  overflow: hidden;
+  color: #777;
+  background: #f5f5f5;
+  font-size: .85rem;
+  text-decoration: none;
 }
 
 .product-card,
@@ -283,8 +357,11 @@
 }
 
 .product-card img {
+  display: block;
   width: 100%;
-  height: 205px;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
   background: #f5f5f5;
 }
@@ -292,9 +369,9 @@
 .product-card-content {
   display: grid;
   flex: 1;
-  gap: .55rem;
+  gap: .7rem;
   justify-items: center;
-  padding: .75rem 1rem 1.1rem;
+  padding: .85rem 1rem 1rem;
   text-align: center;
 }
 
@@ -314,6 +391,21 @@
 .product-card h2 {
   color: #111;
   font-size: 1rem;
+}
+
+.product-card h2 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.product-card h2 a:hover,
+.product-detail-link:hover {
+  text-decoration: underline;
+}
+
+.product-detail-link {
+  color: #555;
+  font-size: .88rem;
 }
 
 .product-card p {
@@ -336,7 +428,111 @@
   border-radius: .5rem;
 }
 
+.product-action-button {
+  display: grid;
+  width: 100%;
+  min-height: 2.5rem;
+  margin-top: .3rem;
+  padding: .55rem .95rem;
+  place-items: center;
+  color: #fff;
+  background: #000;
+  border: 1px solid #000;
+  border-radius: .5rem;
+  text-align: center;
+  text-decoration: none;
+}
+
+.product-action-button:hover {
+  color: #fff;
+  background: #333;
+}
+
 .product-card-content button:hover:not(:disabled) {
+  color: #fff;
+  background: #333;
+  border-color: #333;
+}
+
+.product-breadcrumb {
+  margin: 0 0 1.2rem;
+  color: #777;
+  font-size: .9rem;
+}
+
+.product-breadcrumb a,
+.product-category {
+  color: #555;
+}
+
+.product-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, .9fr);
+  gap: clamp(1.5rem, 5vw, 4rem);
+  align-items: start;
+  padding: clamp(1rem, 3vw, 2rem);
+  background: #f5f5f5;
+  border-radius: .8rem;
+}
+
+.product-detail-image {
+  display: grid;
+  min-height: 22rem;
+  place-items: center;
+  overflow: hidden;
+  color: #777;
+  background: #fff;
+  border-radius: .6rem;
+}
+
+.product-detail-image img {
+  width: 100%;
+  max-height: 34rem;
+  object-fit: contain;
+}
+
+.product-detail-content {
+  display: grid;
+  justify-items: start;
+  gap: .9rem;
+}
+
+.product-detail-content h1 {
+  margin: 0;
+  color: #111;
+  font-size: clamp(1.6rem, 4vw, 2.3rem);
+}
+
+.product-category {
+  font-size: .85rem;
+  font-weight: 650;
+  text-transform: uppercase;
+}
+
+.product-detail-price {
+  color: #111;
+  font-size: 1.6rem;
+}
+
+.product-detail-stock {
+  margin: 0;
+  color: #555;
+}
+
+.product-detail-description {
+  color: #555;
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+.product-detail-content > button {
+  min-width: min(100%, 18rem);
+  color: #fff;
+  background: #000;
+  border-color: #000;
+}
+
+.product-detail-content > button:hover:not(:disabled) {
   color: #fff;
   background: #333;
   border-color: #333;
@@ -612,6 +808,22 @@
 
   .store-page {
     padding: 1.1rem;
+  }
+
+  .catalog-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .catalog-filters {
+    grid-template-columns: 1fr;
+  }
+
+  .product-detail {
+    grid-template-columns: 1fr;
+  }
+
+  .product-detail-image {
+    min-height: 16rem;
   }
 
   .management-item,

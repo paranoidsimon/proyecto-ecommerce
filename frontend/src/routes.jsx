@@ -8,6 +8,7 @@ import Users from './pages/Users';
 import User from './pages/User';
 import Register from './pages/Register';
 import Products from './pages/Products';
+import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
 import Orders from './pages/Orders';
 
@@ -45,6 +46,10 @@ const routes = [
       {
         path: '/products/manage',
         element: <Products />,
+      },
+      {
+        path: '/products/:productId',
+        element: <ProductDetail />,
       },
       {
         path: '/users',

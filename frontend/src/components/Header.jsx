@@ -26,7 +26,13 @@ export default function Header({
       onSubmit={event => {
         event.preventDefault();
         const term = searchValue.trim();
-        navigate({ pathname: '/', search: term ? `?search=${encodeURIComponent(term)}` : '' });
+        const params = new URLSearchParams(location.search);
+        if (term)
+          params.set('search', term);
+        else
+          params.delete('search');
+        const query = params.toString();
+        navigate({ pathname: '/', search: query ? `?${query}` : '' });
       }}
     >
       <svg aria-hidden="true" viewBox="0 0 24 24">
