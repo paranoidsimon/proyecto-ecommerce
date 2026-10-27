@@ -6,7 +6,8 @@
   "scripts": {
     "test": "node --test",
     "dev": "nodemon server.js",
-    "create-admin": "node scripts/create_admin.js"
+    "create-admin": "node scripts/create_admin.js",
+    "reset-admin-password": "node scripts/reset_admin_password.js"
   },
   "repository": {
     "type": "git",

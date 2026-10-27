@@ -1,22 +1,22 @@
 :root {
   font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  color: #172b4d;
-  background: #f4f7fb;
+  color: #111;
+  background: #fff;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --color-ink: #172b4d;
-  --color-muted: #63748b;
-  --color-primary: #176b87;
-  --color-primary-dark: #10536c;
-  --color-accent: #23a6a1;
-  --color-border: #dce5ee;
+  --color-ink: #111;
+  --color-muted: #707070;
+  --color-primary: #111;
+  --color-primary-dark: #000;
+  --color-accent: #f21b1b;
+  --color-border: #e8e8e8;
   --color-surface: #fff;
-  --color-background: #f4f7fb;
-  --color-danger: #b54747;
-  --shadow-soft: 0 8px 28px rgb(23 43 77 / 6%);
+  --color-background: #fff;
+  --color-danger: #c62828;
+  --shadow-soft: 0 5px 18px rgb(0 0 0 / 5%);
 }
 
 * {
@@ -50,8 +50,8 @@ input[type="submit"] {
 
 button:hover:not(:disabled),
 input[type="button"]:hover:not(:disabled) {
-  background: #edf5f8;
-  border-color: #a9c7d3;
+  background: #ededed;
+  border-color: #c8c8c8;
 }
 
 input[type="submit"],
@@ -96,7 +96,7 @@ select:focus-visible,
 textarea:focus-visible,
 button:focus-visible,
 a:focus-visible {
-  outline: 3px solid rgb(35 166 161 / 32%);
+  outline: 3px solid rgb(17 17 17 / 25%);
   outline-offset: 2px;
 }
 

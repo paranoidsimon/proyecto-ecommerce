@@ -12,7 +12,7 @@ export default function Login() {
   const navigate = useNavigate();
   const { login } = useLogin();
   const { setAuthorization } = useApi();
-  const { setUsername, setRole } = useGlobal();
+  const { setUsername, setDisplayName, setRole } = useGlobal();
   const [disabled, setDisabled] = useState(false);
   const [data, setData] = useState({
     username: '',
@@ -28,6 +28,7 @@ export default function Login() {
       localStorage.setItem('session', JSON.stringify(res));
       setAuthorization('Bearer ' + res.authorizationToken);
       setUsername(res.username);
+      setDisplayName(res.displayName || res.username);
       setRole(res.role);
       toast.success('Sesión iniciada correctamente.');
       navigate('/');

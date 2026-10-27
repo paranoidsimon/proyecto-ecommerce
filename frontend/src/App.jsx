@@ -10,7 +10,7 @@ const router = createBrowserRouter(routes);
 
 export default function App() {
   const { setAuthorization } = useApi();
-  const { setUsername, setRole } = useGlobal();
+  const { setUsername, setDisplayName, setRole } = useGlobal();
 
   useEffect(() => {
     let session;
@@ -26,9 +26,10 @@ export default function App() {
     
     setAuthorization('Bearer ' + session.authorizationToken);
     setUsername(session.username);
+    setDisplayName(session.displayName || session.username);
     setRole(session.role);
     toast.success('Sesión iniciada correctamente.');
-  }, [setAuthorization, setRole, setUsername]);
+  }, [setAuthorization, setDisplayName, setRole, setUsername]);
 
   return <RouterProvider
     router={router}

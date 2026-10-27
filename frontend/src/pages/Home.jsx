@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import useCommerce from '../services/useCommerce';
 import useGlobal from '../services/useGlobal';
@@ -12,9 +12,10 @@ const money = value => new Intl.NumberFormat('es-AR', {
 export default function Home() {
   const { getProducts, addCartItem } = useCommerce();
   const { role } = useGlobal();
+  const [searchParams] = useSearchParams();
+  const searchTerm = searchParams.get('search') || '';
   const canManageProducts = role === 'admin' || role === 'seller';
   const [products, setProducts] = useState([]);
-  const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
 
   async function loadProducts(term = '') {
@@ -29,9 +30,9 @@ export default function Home() {
   }
 
   useEffect(() => {
-    loadProducts();
+    loadProducts(searchTerm);
   // oxlint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [searchTerm]);
 
   async function addToCart(product) {
     if (role !== 'customer') {
@@ -48,19 +49,7 @@ export default function Home() {
 
   return <section className="store-page">
     <h1>Tienda</h1>
-    <p>Busca productos y arma tu pedido.</p>
-    <form className="search-form" onSubmit={event => {
-      event.preventDefault();
-      loadProducts(search);
-    }}>
-      <input
-        aria-label="Buscar productos"
-        placeholder="Buscar productos..."
-        value={search}
-        onChange={event => setSearch(event.target.value)}
-      />
-      <button type="submit">Buscar</button>
-    </form>
+    <p>Encuentra tus productos favoritos.</p>
     {loading ? <p>Cargando productos...</p> : products.length === 0
       ? <p>No hay productos disponibles.</p>
       : <div className="product-grid">

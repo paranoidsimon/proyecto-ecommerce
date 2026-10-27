@@ -30,6 +30,7 @@ export class LoginService {
     return {
       authorizationToken: session.authorizationToken,
       username: session.username,
+      displayName: user.displayName,
       role: session.role,
     };
   }

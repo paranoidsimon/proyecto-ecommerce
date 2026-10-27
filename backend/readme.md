@@ -21,6 +21,22 @@ El backend sigue el flujo `api router -> service -> MongoDB repository`. `depend
    El comando falla si ya existe un administrador y no incluye credenciales por defecto.
 4. Inicia el servidor con `npm run dev`.
 
+### Restablecer la contraseña del administrador
+
+Si ya existe el administrador y olvidaste su contraseña, desde PowerShell define el nombre de usuario y escribe la nueva contraseña en el prompt oculto:
+
+```powershell
+$env:RESET_ADMIN_USERNAME = "admin"
+$env:RESET_ADMIN_PASSWORD = [System.Net.NetworkCredential]::new(
+  "",
+  (Read-Host "Nueva contraseña" -AsSecureString)
+).Password
+npm run reset-admin-password
+Remove-Item Env:RESET_ADMIN_USERNAME, Env:RESET_ADMIN_PASSWORD
+```
+
+El comando solo actualiza la contraseña de una cuenta con rol `admin`, aplica bcrypt y exige al menos 8 caracteres. No guarda la contraseña en el archivo ni la imprime. Haz una copia de seguridad de la base de datos antes de ejecutarlo.
+
 ## Roles
 
 - `admin`: administra usuarios y roles; también puede gestionar catálogo y pedidos.
